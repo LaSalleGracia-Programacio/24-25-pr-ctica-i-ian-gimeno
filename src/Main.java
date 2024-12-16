@@ -13,10 +13,11 @@ public class Main {
         int torn = 0;
         Scanner scanner = new Scanner(System.in);
         int opcio = 0;
-        char jugador = (torn == 0) ? 'M' : 'm'; // Turno: 0 = mayúsculas, 1 = minúsculas
-
 
         do {
+
+            char jugador = (torn == 0) ? 'M' : 'm';
+
             System.out.println("Menu:");
             System.out.println("Torn de moure de: "+ (torn == 0 ? "1 (Majúscules)" : "2 (Minúscules)"));
             System.out.println("1. Moure peça");
@@ -100,20 +101,19 @@ public class Main {
 
         System.out.println(jugador);
 
-        if (TaulerEscacs[filaOrigen][columnaOrigen] == "-") {
+        if (TaulerEscacs[filaOrigen][columnaOrigen].equals("-")) {
                 System.out.println("Aquesta posició no conté cap peça.");
         } else if ((Character.isUpperCase((peça.charAt(0)))&& Character.isLowerCase(jugador)) ||(Character.isLowerCase((peça.charAt(0)))&& Character.isUpperCase(jugador))) {
                 System.out.println("Aquesta peça no pertany al jugador actual.");
+        }else {
+            menuPerPeça(peça);
         }
-
-        menuPerPeça(peça);
-
     }
 
     private static void menuPerPeça(String peça){
         Scanner scanner = new Scanner(System.in);
 
-        switch (peça.toLowerCase()){
+        switch (peça.toLowerCase()) {
             case "p":
                 System.out.println("Has seleccionat el peó. Opcions:");
                 System.out.println("1. Moure endavant");
@@ -145,6 +145,13 @@ public class Main {
                 System.out.println("3. Moure en diagonal");
                 break;
         }
+
+        System.out.print("Selecciona una opción: ");
+        int opcion = scanner.nextInt();
+        System.out.println("Has seleccioant la opció " + opcion + " per la peça '" + peça + "'.");
+
+
+
     }
 
 }
