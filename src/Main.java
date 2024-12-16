@@ -38,7 +38,7 @@ public class Main {
                     System.out.println("Has seleccionat moure una peça.");
                     torn ++;
 
-                    mourePeça();
+                    mourePeça(jugador);
 
 
 
@@ -69,32 +69,82 @@ public class Main {
         }
     }
 
-    private static void mourePeça(){
+    private static void mourePeça(char jugador ){
         Scanner scanner = new Scanner(System.in);
         boolean posicioCorrecte = false;
-        String pieza = TaulerEscacs[filaOrigen][columnaOrigen];
+        int filaOrigen=0;
+        int columnaOrigen=0;
+
 
         mostrarTauler();
 
 
         while (true) {
             System.out.print("Ingresa la fila de la peça a moure(1-8):");
-            int filaOrigen = scanner.nextInt() - 1;
+            filaOrigen = scanner.nextInt() - 1;
             System.out.print("Ingresa la columna de la peça a moure(1-8):");
-            int columnaOrigen = scanner.nextInt() - 1;
+            columnaOrigen = scanner.nextInt() - 1;
 
             if (filaOrigen < 0 || filaOrigen >= 8 || columnaOrigen < 0 || columnaOrigen >= 8) {
                 System.out.println("La fila o la columna no són correctes.");
-            }else {
+            } else {
                 posicioCorrecte = true;
                 break;
             }
 
-            if (TaulerEscacs[filaOrigen][columnaOrigen] == "-") {
+        }
+
+        String peça = TaulerEscacs[filaOrigen][columnaOrigen];
+
+        System.out.println("Has seleccionat la peça '" + peça + "' en la fila " + (filaOrigen + 1) + " y la columna " + (columnaOrigen + 1) + ".");
+
+        System.out.println(jugador);
+
+        if (TaulerEscacs[filaOrigen][columnaOrigen] == "-") {
                 System.out.println("Aquesta posició no conté cap peça.");
-            } else if (TaulerEscacs[filaOrigen][columnaOrigen].charAt(0)!= jugador) {
-                System.out.println("Aquesta peça no pert any dels seus propietaris.");
-            }
+        } else if ((Character.isUpperCase((peça.charAt(0)))&& Character.isLowerCase(jugador)) ||(Character.isLowerCase((peça.charAt(0)))&& Character.isUpperCase(jugador))) {
+                System.out.println("Aquesta peça no pertany al jugador actual.");
+        }
+
+        menuPerPeça(peça);
+
+    }
+
+    private static void menuPerPeça(String peça){
+        Scanner scanner = new Scanner(System.in);
+
+        switch (peça.toLowerCase()){
+            case "p":
+                System.out.println("Has seleccionat el peó. Opcions:");
+                System.out.println("1. Moure endavant");
+                System.out.println("2. Capturar en diagonal");
+                break;
+            case "t":
+                System.out.println("Has seleccionat la torre. Opcions:");
+                System.out.println("1. Moure horitzontalment");
+                System.out.println("2. Moure verticalment");
+                break;
+            case "c":
+                System.out.println("Has seleccionat el cavall. Opcions:");
+                System.out.println("1. Moure en L");
+                break;
+            case "a":
+                System.out.println("Has seleccionat l'alfil. Opcions:");
+                System.out.println("1. Moure en diagonal");
+                break;
+            case "d":
+                System.out.println("Has seleccionat la reina. Opcions:");
+                System.out.println("1. Moure horitzintalment");
+                System.out.println("2. Moure verticalment");
+                System.out.println("3. Moure en diagonal");
+                break;
+            case "r":
+                System.out.println("Has seleccionat el rei. Opcions:");
+                System.out.println("1. Moure horitzintalment");
+                System.out.println("2. Moure verticalment");
+                System.out.println("3. Moure en diagonal");
+                break;
         }
     }
+
 }
