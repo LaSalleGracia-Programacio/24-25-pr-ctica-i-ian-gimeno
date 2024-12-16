@@ -38,7 +38,6 @@ public class Main {
                     System.out.println("Has seleccionat moure una peça.");
                     torn ++;
 
-
                     mourePeça();
 
 
@@ -51,21 +50,20 @@ public class Main {
         } while (opcio != 2);
     }
 
-    private static void TaulerEscacs(){
-        String [][] Tauler = {
-                {"t","c","a","d","R","a","c","t"},
-                {"p","p","p","p","p","p","p","p"},
-                {"-","-","-","-","-","-","-","-"},
-                {"-","-","-","-","-","-","-","-"},
-                {"-","-","-","-","-","-","-","-"},
-                {"-","-","-","-","-","-","-","-"},
-                {"P","P","P","P","P","P","P","P"},
-                {"T","C","A","D","R","A","C","T"},
-        };
-
-        for (String[] strings : Tauler) {
-            for (String string : strings) {
-                System.out.print(string + " ");
+    private static String[][] TaulerEscacs = {
+            {"t", "c", "a", "d", "R", "a", "c", "t"},
+            {"p", "p", "p", "p", "p", "p", "p", "p"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"P", "P", "P", "P", "P", "P", "P", "P"},
+            {"T", "C", "A", "D", "R", "A", "C", "T"},
+    };
+    private static void mostrarTauler() {
+        for (String[] fila : TaulerEscacs) {
+            for (String celda : fila) {
+                System.out.print(celda + " ");
             }
             System.out.println();
         }
@@ -73,12 +71,30 @@ public class Main {
 
     private static void mourePeça(){
         Scanner scanner = new Scanner(System.in);
+        boolean posicioCorrecte = false;
+        String pieza = TaulerEscacs[filaOrigen][columnaOrigen];
 
-        TaulerEscacs();
-        System.out.print("Ingresa la fila de la peça a moure(1-8):");
-        int filaOrigen = scanner.nextInt() - 1;
-        System.out.print("Ingresa la columna de la peça a moure(1-8):");
-        int columnaOrigen = scanner.nextInt() - 1;
+        mostrarTauler();
 
+
+        while (true) {
+            System.out.print("Ingresa la fila de la peça a moure(1-8):");
+            int filaOrigen = scanner.nextInt() - 1;
+            System.out.print("Ingresa la columna de la peça a moure(1-8):");
+            int columnaOrigen = scanner.nextInt() - 1;
+
+            if (filaOrigen < 0 || filaOrigen >= 8 || columnaOrigen < 0 || columnaOrigen >= 8) {
+                System.out.println("La fila o la columna no són correctes.");
+            }else {
+                posicioCorrecte = true;
+                break;
+            }
+
+            if (TaulerEscacs[filaOrigen][columnaOrigen] == "-") {
+                System.out.println("Aquesta posició no conté cap peça.");
+            } else if (TaulerEscacs[filaOrigen][columnaOrigen].charAt(0)!= jugador) {
+                System.out.println("Aquesta peça no pert any dels seus propietaris.");
+            }
+        }
     }
 }
