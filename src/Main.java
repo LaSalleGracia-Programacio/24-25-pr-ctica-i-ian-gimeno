@@ -49,7 +49,7 @@ public class Main {
             {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"P", "P", "-", "-", "P", "P", "P", "P"},
+            {"-", "P", "-", "-", "P", "P", "P", "P"},
             {"T", "C", "A", "D", "R", "A", "C", "T"},
     };
     private static void mostrarTauler() {
@@ -294,7 +294,6 @@ public class Main {
                                                 if (casellaDesti.equals("-")) {
                                                     TaulerEscacs[filaOrigen - i][columnaOrigen] = (direccio == -1) ? "t" : "T";
                                                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                                                    mostrarTauler();
                                                 } else if ((Character.isUpperCase(casellaDesti.charAt(0)) && direccio == -1) ||
                                                         (Character.isLowerCase(casellaDesti.charAt(0)) && direccio == 1)) {
                                                     System.out.println("Has capturat una peça a la casella (" + (filaOrigen - i + 1) + ", " + (columnaOrigen + 1) + ").");
@@ -310,11 +309,11 @@ public class Main {
                                                 System.out.println("No pots moure la torre més amunt, has arribat al límit del tauler.");
                                                 break;
                                             }
-                                            // Vaciar la posició anterior
                                             if (i < moviment) {
                                                 TaulerEscacs[filaOrigen - i][columnaOrigen] = "-";
                                             }
                                         }
+                                        mostrarTauler();
                                     } else {
                                         for (int i = 1; i <= moviment; i++) {
                                             if (filaOrigen + i < TaulerEscacs.length) {
@@ -338,7 +337,6 @@ public class Main {
                                                 System.out.println("No pots moure la torre més avall, has arribat al límit del tauler.");
                                                 break;
                                             }
-                                            // Vaciar la posició anterior
                                             if (i < moviment) {
                                                 TaulerEscacs[filaOrigen + i][columnaOrigen] = "-";
                                             }
@@ -390,7 +388,6 @@ public class Main {
                                                 System.out.println("No pots moure la torre més a la dreta, has arribat al límit del tauler.");
                                                 break;
                                             }
-                                            // Vaciar la posició anterior
                                             if (i < moviment) {
                                                 TaulerEscacs[filaOrigen][columnaOrigen + i] = "-";
                                             }
@@ -418,7 +415,6 @@ public class Main {
                                                 System.out.println("No pots moure la torre més a l'esquerra, has arribat al límit del tauler.");
                                                 break;
                                             }
-                                            // Vaciar la posició anterior
                                             if (i < moviment) {
                                                 TaulerEscacs[filaOrigen][columnaOrigen - i] = "-";
                                             }
@@ -605,6 +601,7 @@ public class Main {
     private static void reina(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         String reina = (torn == 0) ? "d" : "D";
+        String reinaOriginal = (torn == 0) ? "d" : "D";
 
         System.out.print("Vols moure la reina en una de les quatre direccions? (1. Horitzontal, 2. Vertical, 3. Diagonal): ");
         try {
@@ -673,67 +670,10 @@ public class Main {
                             }
                         }
                     }
-                } else if (opcio == 2) {
-                    System.out.print("Vols moure la reina cap amunt o avall? (1. Amunt, 2. Avall): ");
-                    int direccioVertical = scanner.nextInt();
-                    if (direccioVertical == 1) {
-                        System.out.print("Cuantes caselles vols moure la reina? ");
-                        int moviment = scanner.nextInt();
-                        if (moviment <= 0) {
-                            System.out.println("El número de caselles ha de ser positiu.");
-                        } else {
-                            for (int i = 1; i <= moviment; i++) {
-                                if (filaOrigen - i >= 0) {
-                                    String casellaDesti = TaulerEscacs[filaOrigen - i][columnaOrigen];
-                                    if (casellaDesti.equals("-")) {
-                                        TaulerEscacs[filaOrigen - i][columnaOrigen] = reina;
-                                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                                    } else if ((Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0) ||
-                                            (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1)) {
-                                        System.out.println("Has capturat una peça a la casella (" + (filaOrigen - i + 1) + ", " + (columnaOrigen + 1) + ").");
-                                        TaulerEscacs[filaOrigen - i][columnaOrigen] = reina;
-                                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                                        break;
-                                    } else {
-                                        System.out.println("La reina no pot moure's més amunt, obstacle en la casella (" + (filaOrigen - i + 1) + ", " + (columnaOrigen + 1) + ").");
-                                        break;
-                                    }
-                                } else {
-                                    System.out.println("No pots moure la reina més amunt, has arribat al límit del tauler.");
-                                    break;
-                                }
-                            }
-                        }
-                    } else if (direccioVertical == 2) {
-                        System.out.print("Cuantes caselles vols moure la reina? ");
-                        int moviment = scanner.nextInt();
-                        if (moviment <= 0) {
-                            System.out.println("El número de caselles ha de ser positiu.");
-                        } else {
-                            for (int i = 1; i <= moviment; i++) {
-                                if (filaOrigen + i < TaulerEscacs.length) {
-                                    String casellaDesti = TaulerEscacs[filaOrigen + i][columnaOrigen];
-                                    if (casellaDesti.equals("-")) {
-                                        TaulerEscacs[filaOrigen + i][columnaOrigen] = reina;
-                                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                                    } else if ((Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0) ||
-                                            (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1)) {
-                                        System.out.println("Has capturat una peça a la casella (" + (filaOrigen + i + 1) + ", " + (columnaOrigen + 1) + ").");
-                                        TaulerEscacs[filaOrigen + i][columnaOrigen] = reina;
-                                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                                        break;
-                                    } else {
-                                        System.out.println("La reina no pot moure's més avall, obstacle en la casella (" + (filaOrigen + i + 1) + ", " + (columnaOrigen + 1) + ").");
-                                        break;
-                                    }
-                                } else {
-                                    System.out.println("No pots moure la reina més avall, has arribat al límit del tauler.");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } else if (opcio == 3) {
+                }
+                else if (opcio == 2) {moureReinaVertical(torn,filaOrigen,columnaOrigen);
+                }
+                else {
                     System.out.print("Vols moure la reina cap a dalt dreta, dalt esquerra, abaix dreta o abaix esquerra? (1. Dalt Dreta, 2. Dalt Esquerra, 3. Abaix Dreta, 4. Abaix Esquerra): ");
                     int direccioDiagonal = scanner.nextInt();
 
@@ -768,6 +708,92 @@ public class Main {
             scanner.next();
         }
     }
+
+    private static void moureReinaVertical(int torn, int filaOrigen, int columnaOrigen){
+        Scanner scanner = new Scanner(System.in);
+        int direccio = (torn == 0) ? -1 : 1;
+        String pesa = (direccio == -1) ? "la torre minuscula" : "la torre majuscula";
+
+        System.out.println("La torre que es mou es " + pesa);
+
+                System.out.print("En quina direcció vols moure la torre?(1. Amunt, 2. Avall): ");
+                try {
+                    int opcio2 = scanner.nextInt();
+                    if (opcio2 != 1 && opcio2 != 2) {
+                        System.out.println("Opció incorrecta. Torneu a provar.");
+                    } else {
+                        System.out.print("Cuantes caselles vols moure la torre? ");
+                        try {
+                            int moviment = scanner.nextInt();
+                            if (moviment <= 0) {
+                                System.out.println("El número de caselles ha de ser positiu.");
+                            } else {
+                                if (opcio2 == 1) {
+                                    for (int i = 1; i <= moviment; i++) {
+                                        if (filaOrigen - i >= 0) {
+                                            String casellaDesti = TaulerEscacs[filaOrigen - i][columnaOrigen];
+                                            if (casellaDesti.equals("-")) {
+                                                TaulerEscacs[filaOrigen - i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                            } else if ((Character.isUpperCase(casellaDesti.charAt(0)) && direccio == -1) ||
+                                                    (Character.isLowerCase(casellaDesti.charAt(0)) && direccio == 1)) {
+                                                System.out.println("Has capturat una peça a la casella (" + (filaOrigen - i + 1) + ", " + (columnaOrigen + 1) + ").");
+                                                TaulerEscacs[filaOrigen - i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                                mostrarTauler();
+                                                break;
+                                            } else {
+                                                System.out.println("La torre no pot moure's més amunt, obstacle en la casella (" + (filaOrigen - i + 1) + ", " + (columnaOrigen + 1) + ").");
+                                                break;
+                                            }
+                                        } else {
+                                            System.out.println("No pots moure la torre més amunt, has arribat al límit del tauler.");
+                                            break;
+                                        }
+                                        if (i < moviment) {
+                                            TaulerEscacs[filaOrigen - i][columnaOrigen] = "-";
+                                        }
+                                    }
+                                    mostrarTauler();
+                                } else {
+                                    for (int i = 1; i <= moviment; i++) {
+                                        if (filaOrigen + i < TaulerEscacs.length) {
+                                            String casellaDesti = TaulerEscacs[filaOrigen + i][columnaOrigen];
+                                            if (casellaDesti.equals("-")) {
+                                                TaulerEscacs[filaOrigen + i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                                mostrarTauler();
+                                            } else if ((Character.isUpperCase(casellaDesti.charAt(0)) && direccio == -1) ||
+                                                    (Character.isLowerCase(casellaDesti.charAt(0)) && direccio == 1)) {
+                                                System.out.println("Has capturat una peça a la casella (" + (filaOrigen + i + 1) + ", " + (columnaOrigen + 1) + ").");
+                                                TaulerEscacs[filaOrigen + i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                                mostrarTauler();
+                                                break;
+                                            } else {
+                                                System.out.println("La torre no pot moure's més avall, obstacle en la casella (" + (filaOrigen + i + 1) + ", " + (columnaOrigen + 1) + ").");
+                                                break;
+                                            }
+                                        } else {
+                                            System.out.println("No pots moure la torre més avall, has arribat al límit del tauler.");
+                                            break;
+                                        }
+                                        if (i < moviment) {
+                                            TaulerEscacs[filaOrigen + i][columnaOrigen] = "-";
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número positiu.");
+                            scanner.next();
+                        }
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Entrada no vàlida. Si us plau, introdueix 1 o 2.");
+                    scanner.next();
+                }
+            }
 
 
 
