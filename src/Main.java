@@ -23,13 +23,22 @@ public class Main {
                     if (pesa.equals("R")) {
                         ReiMajus = true;
                     }
+                    if (!pesa.equals("r")) {
+                        ReiMinus = false;
+                    }
+                    if (!pesa.equals("R")) {
+                        ReiMajus = false;
+                    }
+
+                    }
                 }
-            }
+
 
             if (!ReiMinus && ReiMajus) {
                 System.out.println("GUANYADOR MAJUSCULA");
                 break;
-            } else if (ReiMinus && !ReiMajus) {
+            }
+            if (ReiMinus && !ReiMajus) {
                 System.out.println("GUANYADOR MINUSCULA");
                 break;
             }
@@ -180,7 +189,7 @@ public class Main {
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)) && Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)))
                                         && TaulerEscacs[filaOrigen + 1][columnaOrigen].equals("-")
                 ) {
-                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = "P";
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -237,7 +246,12 @@ public class Main {
                         (TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) ||
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)))
                 ) {
-                    TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen ] = peo;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }else if (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0))) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen+1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -253,7 +267,12 @@ public class Main {
                         (TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-")) ||
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)))
                 ) {
-                    TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = peo;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }else if (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0))) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen -1 ] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -297,7 +316,7 @@ public class Main {
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) && Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
                                         && TaulerEscacs[filaOrigen -1][columnaOrigen].equals("-")
                 ) {
-                    TaulerEscacs[filaOrigen - 1][columnaOrigen] = "P";
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -354,7 +373,12 @@ public class Main {
                         (TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) ||
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))))
                 {
-                    TaulerEscacs[filaOrigen - 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen] = peo;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                } else if (Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen+1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -370,7 +394,12 @@ public class Main {
                         (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-")) ||
                                 (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)))
                 ) {
-                    TaulerEscacs[filaOrigen - 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen] = peo;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }else if (Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0))) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen-1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
@@ -947,7 +976,7 @@ public class Main {
 
     private static void moureReinaDiagonal(int torn, int filaOrigen, int columnaOrigen){
         Scanner scanner = new Scanner(System.in);
-        String reina = (torn == 0) ? "r" : "R";
+        String reina = (torn == 0) ? "d" : "D";
 
         System.out.println("Escull la direccio per moure l'alfil:");
         System.out.println("1. Dalt Dreta");
