@@ -67,9 +67,9 @@ public class Main {
             {"t", "c", "a", "d", "r", "a", "c", "t"},
             {"p", "p", "p", "p", "p", "p", "p", "p"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "P", "P", "-", "-", "-"},
-            {"R", "-", "p", "R", "P", "-", "-", "-"},
-            {"-", "-", "p", "p", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"P", "P", "P", "P", "P", "P", "P", "P"},
             {"T", "C", "A", "D", "R", "A", "C", "T"},
     };
@@ -159,93 +159,164 @@ public class Main {
 
     private static void peo(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
+        boolean movPossible = false;
         int direccio = (torn == 0) ? -1 : 1;
         String peo = (torn == 0) ? "p" : "P";
 
         if (direccio == -1) {
             System.out.println("El peó es mou cap avall.");
 
-            if (filaOrigen > 0 && columnaOrigen > 0 && columnaOrigen < TaulerEscacs[0].length - 1) {
-                boolean movPossible = false;
 
+            if (columnaOrigen != 0 && columnaOrigen != 7 && filaOrigen != 0) {
                 if (
-                        (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) ||
-                        (Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) || Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))) ||
-                        (Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) && Character.isLowerCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
-                        && TaulerEscacs[filaOrigen +1][columnaOrigen].equals("-")
+                        (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen].charAt(0)) &&
+                                Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)) &&
+                                Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)))
                 ) {
-                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = peo;
+                    movPossible = false;
+                }if (
+                        (TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") && TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-")) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)) || Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0))) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)) && Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)))
+                                        && TaulerEscacs[filaOrigen + 1][columnaOrigen].equals("-")
+                ) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = "P";
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
-                } else if (TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") &&
-                        !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals(peo)) {
-                    TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = peo;
-                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                    movPossible = true;
-                    mostrarTauler();
-                } else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") &&
+                } else if (TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") &&
                         !TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals(peo)) {
                     TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
-                } else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) {
+                } else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") && TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") &&
+                        !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals(peo)) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = peo;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                } else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-")) {
                     mostrarTauler();
                     System.out.print("Quina peça vols capturar?(1. Esquerra, 2. Dreta): ");
-                    int opcio = scanner.nextInt();
+                    try {
+                        int opcio = scanner.nextInt();
 
-                    if (opcio == 1 && !TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals(peo)) {
-                        TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = peo;
-                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                        movPossible = true;
-                        mostrarTauler();
-                    } else if (opcio == 2 && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals(peo)) {
-                        TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = peo;
-                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                        movPossible = true;
-                        mostrarTauler();
+                        if (opcio != 1 && opcio != 2) {
+                            System.out.println("Opció incorrecta. Torneu a provar.");
+                        } else {
+                            if (opcio == 1 && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals(peo)) {
+                                TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = peo;
+                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                movPossible = true;
+                                mostrarTauler();
+                            } else if (opcio == 2 && !TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals(peo)) {
+                                TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = peo;
+                                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                                movPossible = true;
+                                mostrarTauler();
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número entre 1 i 2.");
+                        scanner.next();
                     }
                 }
 
                 if (!movPossible) {
                     System.out.println("No es pot moure el peó en cap direcció.");
+                }
+            }
+            else if (columnaOrigen == 0 && filaOrigen != 0) {
+                if (
+                        Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen].charAt(0)) &&
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)))
+                ) {
+                    movPossible = false;
+                }if (
+                        (TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].charAt(0)))
+                ) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
                     mostrarTauler();
                 }
-            } else {
-                System.out.println("Coordenades no vàlides per al moviment del peó.");
             }
+            else if (columnaOrigen == 7 && filaOrigen != 0) {
+                if (
+                        Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen].charAt(0)) &&
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)))
+                ) {
+                    movPossible = false;
+                }if (
+                        (TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-")) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].charAt(0)))
+                ) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+            }
+            else {
+                System.out.println("En quina peça et vols transformar?");
+                System.out.println("1.Reina");
+                System.out.println("2.Alfil");
+                System.out.println("3.Cavall");
+                System.out.println("4.Torre");
+                System.out.print("Escull:");
+
+                try {
+                    int pesa = scanner.nextInt();
+                    if (pesa != 1 && pesa != 2 && pesa != 3 && pesa != 4) {
+                        System.out.println("Opció incorrecta. Torneu a provar.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número entre 1 i 4.");
+                    scanner.next();
+                }
+            }
+
 
         }
         else {
             System.out.println("El peó es mou cap amunt.");
 
-            if (filaOrigen > 0 && columnaOrigen > 0 && columnaOrigen < TaulerEscacs[0].length - 1) {
-                boolean movPossible = false;
+            if (columnaOrigen !=0 && columnaOrigen != 7 && filaOrigen != 0){
 
                 if (
+                        (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen].charAt(0)) &&
+                                Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) &&
+                                Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
+                ) {
+                    movPossible = false;
+                } else if (
                         (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) ||
-                        (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) || Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))) ||
-                        (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) && Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
-                                && TaulerEscacs[filaOrigen -1][columnaOrigen].equals("-")
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) || Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)) && Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
+                                        && TaulerEscacs[filaOrigen -1][columnaOrigen].equals("-")
                 ) {
                     TaulerEscacs[filaOrigen - 1][columnaOrigen] = "P";
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
-                } else if (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-") &&
+                }
+                else if (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-") &&
                         !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals(peo)) {
                     TaulerEscacs[filaOrigen - 1][columnaOrigen + 1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
-                } else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-") &&
+                }
+                else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-") &&
                         !TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals(peo)) {
                     TaulerEscacs[filaOrigen - 1][columnaOrigen - 1] = peo;
                     TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                     movPossible = true;
                     mostrarTauler();
-                } else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
+                }
+                else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
                     mostrarTauler();
                     System.out.print("Quina peça vols capturar?(1. Esquerra, 2. Dreta): ");
                     try {
@@ -272,13 +343,68 @@ public class Main {
                     }
                 }
 
-                if (!movPossible) {
-                    System.out.println("No es pot moure el peó en cap direcció.");
-                }
-            } else {
-                System.out.println("Coordenades no vàlides per al moviment del peó.");
             }
+            else if (columnaOrigen == 0 && filaOrigen != 0){
+                if (
+                        Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen].charAt(0)) &&
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0)))
+                ) {
+                    movPossible = false;
+                } else if (
+                        (TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].charAt(0))))
+                {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+            }
+            else if (columnaOrigen == 7 && filaOrigen != 0) {
+                if (
+                        Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen].charAt(0)) &&
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)))
+                ) {
+                    movPossible = false;
+                }else if (
+                        (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-")) ||
+                                (Character.isUpperCase(TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].charAt(0)))
+                ) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+            }
+            else {
+                System.out.println("En quina peça et vols transformar?");
+                System.out.println("1.Reina");
+                System.out.println("2.Alfil");
+                System.out.println("3.Cavall");
+                System.out.println("4.Torre");
+                System.out.print("Escull:");
+
+                try {
+                    int pesa = scanner.nextInt();
+                    if (pesa != 1 && pesa != 2 && pesa != 3 && pesa != 4) {
+                        System.out.println("Opció incorrecta. Torneu a provar.");
+                    }
+                }catch (InputMismatchException e) {
+                    System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número entre 1 i 4.");
+                    scanner.next();
+                }
+
+
+
+            }
+
         }
+
+        if (!movPossible) {
+            System.out.println("No es pot moure el peó en cap direcció.");
+            mostrarTauler();
+        }
+
     }
 
 
