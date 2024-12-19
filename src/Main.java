@@ -37,11 +37,10 @@ public class Main {
             switch (opcio) {
                 case 1:
                     System.out.println("Has seleccionat moure una peça.");
-                    torn ++;
+                    torn = (torn + 1) % 2;
+
 
                     mourePeça(jugador);
-
-
 
                     break;
                 case 2:
@@ -52,7 +51,7 @@ public class Main {
     }
 
     private static String[][] TaulerEscacs = {
-            {"t", "c", "a", "d", "R", "a", "c", "t"},
+            {"t", "c", "a", "d", "r", "a", "c", "t"},
             {"p", "p", "p", "p", "p", "p", "p", "p"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
@@ -80,7 +79,7 @@ public class Main {
         mostrarTauler();
 
 
-        while (true) {
+        while (!posicioCorrecte) {
             System.out.print("Ingresa la fila de la peça a moure(1-8):");
             filaOrigen = scanner.nextInt() - 1;
             System.out.print("Ingresa la columna de la peça a moure(1-8):");
@@ -90,7 +89,6 @@ public class Main {
                 System.out.println("La fila o la columna no són correctes.");
             } else {
                 posicioCorrecte = true;
-                break;
             }
 
         }
@@ -99,7 +97,6 @@ public class Main {
 
         System.out.println("Has seleccionat la peça '" + peça + "' en la fila " + (filaOrigen + 1) + " y la columna " + (columnaOrigen + 1) + ".");
 
-        System.out.println(jugador);
 
         if (TaulerEscacs[filaOrigen][columnaOrigen].equals("-")) {
                 System.out.println("Aquesta posició no conté cap peça.");
@@ -114,43 +111,83 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         switch (peça.toLowerCase()) {
-            case "p":
+            case "p" -> {
                 System.out.println("Has seleccionat el peó. Opcions:");
                 System.out.println("1. Moure endavant");
                 System.out.println("2. Capturar en diagonal");
-                break;
-            case "t":
+            }
+            case "t" -> {
                 System.out.println("Has seleccionat la torre. Opcions:");
                 System.out.println("1. Moure horitzontalment");
                 System.out.println("2. Moure verticalment");
-                break;
-            case "c":
+            }
+            case "c" -> {
                 System.out.println("Has seleccionat el cavall. Opcions:");
                 System.out.println("1. Moure en L");
-                break;
-            case "a":
+            }
+            case "a" -> {
                 System.out.println("Has seleccionat l'alfil. Opcions:");
-                System.out.println("1. Moure en diagonal");
-                break;
-            case "d":
+                System.out.println("1. Moure en diagonal a la dreta");
+                System.out.println("2. Moure en diagonal a l'esquerra");
+            }
+            case "d" -> {
                 System.out.println("Has seleccionat la reina. Opcions:");
                 System.out.println("1. Moure horitzintalment");
                 System.out.println("2. Moure verticalment");
                 System.out.println("3. Moure en diagonal");
-                break;
-            case "r":
+            }
+            case "r" -> {
                 System.out.println("Has seleccionat el rei. Opcions:");
                 System.out.println("1. Moure horitzintalment");
                 System.out.println("2. Moure verticalment");
                 System.out.println("3. Moure en diagonal");
-                break;
+            }
         }
 
         System.out.print("Selecciona una opción: ");
-        int opcion = scanner.nextInt();
-        System.out.println("Has seleccioant la opció " + opcion + " per la peça '" + peça + "'.");
+        int opcio = scanner.nextInt();
+        System.out.println("Has seleccioant la opció " + opcio + " per la peça '" + peça + "'.");
 
 
+        switch (peça.toLowerCase()) {
+            case "p" -> {
+                peo(opcio);
+            }
+            case "t" -> {
+                torre(opcio);
+            }
+            case "c" -> {
+                cavall(opcio);
+            }
+            case "a" -> {
+                alfil(opcio);
+            }
+            case "d" -> {
+                reina(opcio);
+            }
+            case "r" -> {
+                rei(opcio);
+            }
+        }
+
+    }
+
+    private static void peo (int opcio){
+
+    }
+    private static void torre (int opcio){
+
+    }
+    private static void cavall (int opcio){
+
+    }
+    private static void alfil (int opcio){
+
+    }
+    private static void reina (int opcio){
+
+    }
+    private static void rei (int opcio){
 
     }
 
