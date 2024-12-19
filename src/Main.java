@@ -10,8 +10,29 @@ public class Main {
         int torn = 0;
         Scanner scanner = new Scanner(System.in);
         int opcio = 0;
+        boolean ReiMajus= false;
+        boolean ReiMinus= false;
 
         do {
+
+            for (String[] taulerEscac : TaulerEscacs) {
+                for (String pesa : taulerEscac) {
+                    if (pesa.equals("r")) {
+                        ReiMinus = true;
+                    }
+                    if (pesa.equals("R")) {
+                        ReiMajus = true;
+                    }
+                }
+            }
+
+            if (!ReiMinus && ReiMajus) {
+                System.out.println("GUANYADOR MAJUSCULA");
+                break;
+            } else if (ReiMinus && !ReiMajus) {
+                System.out.println("GUANYADOR MINUSCULA");
+                break;
+            }
 
             char jugador = (torn == 0) ? 'M' : 'm';
 
@@ -44,12 +65,12 @@ public class Main {
 
     private static final String[][] TaulerEscacs = {
             {"t", "c", "a", "d", "r", "a", "c", "t"},
-            {"p", "p", "p", "-", "p", "p", "p", "p"},
+            {"p", "p", "p", "p", "p", "p", "p", "p"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "D", "-", "-", "-", "-", "-"},
-            {"-", "P", "-", "-", "p", "P", "P", "P"},
+            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"P", "P", "P", "P", "P", "P", "P", "P"},
             {"T", "C", "A", "D", "R", "A", "C", "T"},
     };
     private static void mostrarTauler() {
@@ -599,8 +620,6 @@ public class Main {
             scanner.next();
         }
     }
-
-
 
     private static void reina(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
