@@ -112,7 +112,7 @@ public class Main {
             }
             case "t" -> {
                 System.out.println("Has seleccionat la torre.");
-                torre(torn);
+                torre(torn, filaOrigen, ColumnaOrigen);
             }
             case "c" -> {
                 System.out.println("Has seleccionat el cavall.");
@@ -141,6 +141,51 @@ public class Main {
 
             System.out.println("El peó es mou cap avall.");
 
+            if (filaOrigen > 0 && columnaOrigen > 0 && columnaOrigen < TaulerEscacs[0].length - 1) {
+                boolean movPossible = false;
+
+                if (TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (!TaulerEscacs[filaOrigen + 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen + 1][columnaOrigen + 1].equals("-")) {
+                    mostrarTauler();
+                    System.out.print("Quina peça vols capturar?(1. Esquerra, 2. Dreta): ");
+                    int opcio = scanner.nextInt();
+
+                    if (opcio == 1) {
+                        TaulerEscacs[filaOrigen + 1][columnaOrigen - 1] = "P";
+                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        movPossible = true;
+                        mostrarTauler();
+                    } else if (opcio == 2) {
+                        TaulerEscacs[filaOrigen + 1][columnaOrigen + 1] = "P";
+                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        movPossible = true;
+                        mostrarTauler();
+                    }
+                }
+
+                if (!movPossible) {
+                    System.out.println("No es pot moure el peó en cap direcció.");
+                }
+            } else {
+                System.out.println("Coordenades no vàlides per al moviment del peó.");
+            }
 
         } else {
             System.out.println("El peó es mou cap amunt.");
@@ -185,7 +230,7 @@ public class Main {
                 }
 
                 if (!movPossible) {
-                    System.out.println("No es pot moure el peó en aquesta direcció.");
+                    System.out.println("No es pot moure el peó en cap direcció.");
                 }
             } else {
                 System.out.println("Coordenades no vàlides per al moviment del peó.");
@@ -195,7 +240,9 @@ public class Main {
 
         }
     }
-    private static void torre (int torn){
+    private static void torre (int torn, int filaOrigen, int columnaOrigen) {
+
+
 
     }
     private static void cavall (int torn){
