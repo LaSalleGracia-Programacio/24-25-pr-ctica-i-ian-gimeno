@@ -240,11 +240,124 @@ public class Main {
 
         }
     }
-    private static void torre (int torn, int filaOrigen, int columnaOrigen) {
+    private static void torre(int torn, int filaOrigen, int columnaOrigen) {
+        Scanner scanner = new Scanner(System.in);
+        int direccio = (torn == 0) ? -1 : 1;
+        String pesa = (direccio == -1) ? "la torre minuscula" : "la torre majuscula";
 
+        System.out.println("La torre que es mou es " + pesa);
 
+        System.out.print("En quina direcció vols moure la torre?(1. Vertical, 2. Horizontal): ");
+        int opcio = scanner.nextInt();
 
+        if (opcio == 1) {
+            System.out.print("En quina direcció vols moure la torre?(1. Amunt, 2. Avall): ");
+            int opcio2 = scanner.nextInt();
+
+            System.out.print("Cuantes caselles vols moure la torre? ");
+            int moviment = scanner.nextInt();
+
+            if (opcio2 == 1) {
+                for (int i = 1; i <= moviment; i++) {
+                    if (filaOrigen - i >= 0) {
+                        if (TaulerEscacs[filaOrigen - i][columnaOrigen].equals("-")) {
+                            TaulerEscacs[filaOrigen - i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                        } else if (Character.isUpperCase(TaulerEscacs[filaOrigen - i][columnaOrigen].charAt(0))) {
+
+                            System.out.println("Has capturat una peça a la casella (" + (filaOrigen - i +1) + ", " + (columnaOrigen+1) + ").");
+                            TaulerEscacs[filaOrigen - i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                            break;
+                        } else {
+                            System.out.println("La torre no pot moure's més amunt, obstacle en la casella (" + (filaOrigen - i+1) + ", " + (columnaOrigen+1) + ").");
+                            break;
+                        }
+                    } else {
+                        System.out.println("No pots moure la torre més amunt, has arribat al límit del tauler.");
+                        break;
+                    }
+                }
+            } else if (opcio2 == 2) {
+                for (int i = 1; i <= moviment; i++) {
+                    if (filaOrigen + i < TaulerEscacs.length) {
+                        if (TaulerEscacs[filaOrigen + i][columnaOrigen].equals("-")) {
+                            TaulerEscacs[filaOrigen + i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                        } else if (Character.isUpperCase(TaulerEscacs[filaOrigen + i][columnaOrigen].charAt(0))) {
+                            System.out.println("Has capturat una peça a la casella (" + (filaOrigen + i+1) + ", " + (columnaOrigen+1) + ").");
+                            TaulerEscacs[filaOrigen + i][columnaOrigen] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                            break;
+                        } else {
+                            System.out.println("La torre no pot moure's més avall, obstacle en la casella (" + (filaOrigen + i+1) + ", " + (columnaOrigen+1) + ").");
+                            break;
+                        }
+                    } else {
+                        System.out.println("No pots moure la torre més avall, has arribat al límit del tauler.");
+                        break;
+                    }
+                }
+            }
+        } else if (opcio == 2) {
+            System.out.print("En quina direcció vols moure la torre?(1. Dreta, 2. Esquerra): ");
+            int opcio3 = scanner.nextInt();
+
+            System.out.print("Cuantes caselles vols moure la torre? ");
+            int moviment = scanner.nextInt();
+
+            if (opcio3 == 1) {
+                for (int i = 1; i <= moviment; i++) {
+                    if (columnaOrigen + i < TaulerEscacs[0].length) {
+                        if (TaulerEscacs[filaOrigen][columnaOrigen + i].equals("-")) {
+                            TaulerEscacs[filaOrigen][columnaOrigen + i] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                        } else if (Character.isUpperCase(TaulerEscacs[filaOrigen][columnaOrigen + i].charAt(0))) {
+                            System.out.println("Has capturat una peça a la casella (" + (filaOrigen+1) + ", " + (columnaOrigen + i+1) + ").");
+                            TaulerEscacs[filaOrigen][columnaOrigen + i] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                            break;
+                        } else {
+                            System.out.println("La torre no pot moure's més a la dreta, obstacle en la casella (" + (filaOrigen+1) + ", " + (columnaOrigen + i+1) + ").");
+                            break;
+                        }
+                    } else {
+                        System.out.println("No pots moure la torre més a la dreta, has arribat al límit del tauler.");
+                        break;
+                    }
+                }
+            } else if (opcio3 == 2) {
+                for (int i = 1; i <= moviment; i++) {
+                    if (columnaOrigen - i >= 0) {
+                        if (TaulerEscacs[filaOrigen][columnaOrigen - i].equals("-")) {
+                            TaulerEscacs[filaOrigen][columnaOrigen - i] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                        } else if (Character.isUpperCase(TaulerEscacs[filaOrigen][columnaOrigen - i].charAt(0))) {
+                            System.out.println("Has capturat una peça a la casella (" + (filaOrigen+1) + ", " + (columnaOrigen - i+1) + ").");
+                            TaulerEscacs[filaOrigen][columnaOrigen - i] = (direccio == -1) ? "t" : "T";
+                            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                            mostrarTauler();
+                            break;
+                        } else {
+                            System.out.println("La torre no pot moure's més a l'esquerra, obstacle en la casella (" + (filaOrigen+1) + ", " + (columnaOrigen - i+1) + ").");
+                            break;
+                        }
+                    } else {
+                        System.out.println("No pots moure la torre més a l'esquerra, has arribat al límit del tauler.");
+                        break;
+                    }
+                }
+            }
+        }
     }
+
     private static void cavall (int torn){
 
     }
