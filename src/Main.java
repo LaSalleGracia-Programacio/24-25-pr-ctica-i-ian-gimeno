@@ -35,17 +35,12 @@ public class Main {
 
 
             switch (opcio) {
-                case 1:
+                case 1 -> {
                     System.out.println("Has seleccionat moure una peça.");
                     torn = (torn + 1) % 2;
-
-
-                    mourePeça(jugador);
-
-                    break;
-                case 2:
-                    System.out.println("Has sortit del programa.");
-                    break;
+                    mourePeça(jugador, torn);
+                }
+                case 2 -> System.out.println("Has sortit del programa.");
             }
         } while (opcio != 2);
     }
@@ -69,7 +64,7 @@ public class Main {
         }
     }
 
-    private static void mourePeça(char jugador ){
+    private static void mourePeça(char jugador, int torn ){
         Scanner scanner = new Scanner(System.in);
         boolean posicioCorrecte = false;
         int filaOrigen=0;
@@ -103,91 +98,116 @@ public class Main {
         } else if ((Character.isUpperCase((peça.charAt(0)))&& Character.isLowerCase(jugador)) ||(Character.isLowerCase((peça.charAt(0)))&& Character.isUpperCase(jugador))) {
                 System.out.println("Aquesta peça no pertany al jugador actual.");
         }else {
-            menuPerPeça(peça);
+            menuPerPeça(peça, torn, filaOrigen, columnaOrigen);
         }
     }
 
-    private static void menuPerPeça(String peça){
+    private static void menuPerPeça(String peça, int torn, int filaOrigen, int ColumnaOrigen){
         Scanner scanner = new Scanner(System.in);
 
         switch (peça.toLowerCase()) {
             case "p" -> {
-                System.out.println("Has seleccionat el peó. Opcions:");
-                System.out.println("1. Moure endavant");
-                System.out.println("2. Capturar en diagonal");
+                System.out.println("Has seleccionat el peó.");
+                peo(torn, filaOrigen, ColumnaOrigen);
             }
             case "t" -> {
-                System.out.println("Has seleccionat la torre. Opcions:");
-                System.out.println("1. Moure horitzontalment");
-                System.out.println("2. Moure verticalment");
+                System.out.println("Has seleccionat la torre.");
+                torre(torn);
             }
             case "c" -> {
-                System.out.println("Has seleccionat el cavall. Opcions:");
-                System.out.println("1. Moure en L");
+                System.out.println("Has seleccionat el cavall.");
+                cavall(torn);
             }
             case "a" -> {
-                System.out.println("Has seleccionat l'alfil. Opcions:");
-                System.out.println("1. Moure en diagonal a la dreta");
-                System.out.println("2. Moure en diagonal a l'esquerra");
+                System.out.println("Has seleccionat l'alfil.");
+                alfil(torn);
             }
             case "d" -> {
-                System.out.println("Has seleccionat la reina. Opcions:");
-                System.out.println("1. Moure horitzintalment");
-                System.out.println("2. Moure verticalment");
-                System.out.println("3. Moure en diagonal");
+                System.out.println("Has seleccionat la reina.");
+                reina(torn);
             }
             case "r" -> {
-                System.out.println("Has seleccionat el rei. Opcions:");
-                System.out.println("1. Moure horitzintalment");
-                System.out.println("2. Moure verticalment");
-                System.out.println("3. Moure en diagonal");
-            }
-        }
-
-        System.out.print("Selecciona una opción: ");
-        int opcio = scanner.nextInt();
-        System.out.println("Has seleccioant la opció " + opcio + " per la peça '" + peça + "'.");
-
-
-        switch (peça.toLowerCase()) {
-            case "p" -> {
-                peo(opcio);
-            }
-            case "t" -> {
-                torre(opcio);
-            }
-            case "c" -> {
-                cavall(opcio);
-            }
-            case "a" -> {
-                alfil(opcio);
-            }
-            case "d" -> {
-                reina(opcio);
-            }
-            case "r" -> {
-                rei(opcio);
+                System.out.println("Has seleccionat el rei.");
+                rei(torn);
             }
         }
 
     }
 
-    private static void peo (int opcio){
+    private static void peo (int torn, int filaOrigen, int columnaOrigen){
+        Scanner scanner = new Scanner(System.in);
+        int direccio = (torn == 0) ? -1 : 1;
+        if (direccio == -1) {
+
+            System.out.println("El peó es mou cap avall.");
+
+
+        } else {
+            System.out.println("El peó es mou cap amunt.");
+
+            if (filaOrigen > 0 && columnaOrigen > 0 && columnaOrigen < TaulerEscacs[0].length - 1) {
+                boolean movPossible = false;
+
+                if (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen + 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
+                    TaulerEscacs[filaOrigen - 1][columnaOrigen - 1] = "P";
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    movPossible = true;
+                    mostrarTauler();
+                }
+                else if (!TaulerEscacs[filaOrigen - 1][columnaOrigen - 1].equals("-") && !TaulerEscacs[filaOrigen - 1][columnaOrigen + 1].equals("-")) {
+                    mostrarTauler();
+                    System.out.print("Quina peça vols capturar?(1. Esquerra, 2. Dreta): ");
+                    int opcio = scanner.nextInt();
+
+                    if (opcio == 1) {
+                        TaulerEscacs[filaOrigen - 1][columnaOrigen - 1] = "P";
+                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        movPossible = true;
+                        mostrarTauler();
+                    } else if (opcio == 2) {
+                        TaulerEscacs[filaOrigen - 1][columnaOrigen + 1] = "P";
+                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        movPossible = true;
+                        mostrarTauler();
+                    }
+                }
+
+                if (!movPossible) {
+                    System.out.println("No es pot moure el peó en aquesta direcció.");
+                }
+            } else {
+                System.out.println("Coordenades no vàlides per al moviment del peó.");
+            }
+
+
+
+        }
+    }
+    private static void torre (int torn){
 
     }
-    private static void torre (int opcio){
+    private static void cavall (int torn){
 
     }
-    private static void cavall (int opcio){
+    private static void alfil (int torn){
 
     }
-    private static void alfil (int opcio){
+    private static void reina (int torn){
 
     }
-    private static void reina (int opcio){
-
-    }
-    private static void rei (int opcio){
+    private static void rei (int torn){
 
     }
 
