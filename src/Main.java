@@ -67,9 +67,9 @@ public class Main {
             {"t", "c", "a", "d", "r", "a", "c", "t"},
             {"p", "p", "p", "p", "p", "p", "p", "p"},
             {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "-", "-", "-"},
-            {"-", "-", "-", "-", "-", "-", "-", "-"},
+            {"-", "-", "-", "P", "P", "-", "-", "-"},
+            {"R", "-", "p", "R", "P", "-", "-", "-"},
+            {"-", "-", "p", "p", "-", "-", "-", "-"},
             {"P", "P", "P", "P", "P", "P", "P", "P"},
             {"T", "C", "A", "D", "R", "A", "C", "T"},
     };
@@ -902,8 +902,64 @@ public class Main {
     }
 
 
-    private static void rei (int torn, int filaOrigen, int columnaOrigen){
+    private static void rei(int torn, int filaOrigen, int columnaOrigen){
+        Scanner scanner = new Scanner(System.in);
+        String rei = (torn == 0) ? "r" : "R";
 
+        System.out.println("Escull la direccio per moure el rei:");
+        System.out.println("1. Dalt Dreta");
+        System.out.println("2. Dalt Esquerra");
+        System.out.println("3. Baix Dreta");
+        System.out.println("4. Baix Esquerra");
+        System.out.println("5. Dalt");
+        System.out.println("6. Baix");
+        System.out.println("7. Dreta");
+        System.out.println("8. Esquerra");
+        System.out.print("Escull una opcio: ");
+
+        try {
+            int opcio = scanner.nextInt();
+
+            if (opcio < 1 || opcio > 8) {
+                System.out.println("Opcio incorrecta. Intenta-ho de nou.");
+                return;
+            }
+
+            String direccio = "";
+            int filaDesti = filaOrigen;
+            int columnaDesti = columnaOrigen;
+
+            switch (opcio) {
+                case 1 -> { filaDesti--; columnaDesti++; direccio = "Dalt Dreta"; }
+                case 2 -> { filaDesti--; columnaDesti--; direccio = "Dalt Esquerra"; }
+                case 3 -> { filaDesti++; columnaDesti++; direccio = "Baix Dreta"; }
+                case 4 -> { filaDesti++; columnaDesti--; direccio = "Baix Esquerra"; }
+                case 5 -> { filaDesti--; direccio = "Dalt"; }
+                case 6 -> { filaDesti++; direccio = "Baix"; }
+                case 7 -> { columnaDesti++; direccio = "Dreta"; }
+                case 8 -> { columnaDesti--; direccio = "Esquerra"; }
+            }
+
+            if (filaDesti < 0 || filaDesti >= TaulerEscacs.length || columnaDesti < 0 || columnaDesti >= TaulerEscacs[0].length) {
+                System.out.println("Moviment fora del tauler.");
+                return;
+            }
+
+            String casellaDesti = TaulerEscacs[filaDesti][columnaDesti];
+
+            if (casellaDesti.equals("-") || (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1) || (Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0)) {
+                TaulerEscacs[filaDesti][columnaDesti] = rei;
+                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                System.out.println("El rei s'ha mogut " + direccio);
+                mostrarTauler();
+            } else {
+                System.out.println("No pots menjar la teva pròpia peça.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número vàlid.");
+            scanner.next();
+        }
     }
+
 
 }
