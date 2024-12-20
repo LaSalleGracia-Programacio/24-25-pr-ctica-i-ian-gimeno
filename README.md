@@ -21,4 +21,4 @@ Este repositorio contiene una implementación simple de un juego de ajedrez en J
 Primero, clona este repositorio en tu máquina local:
 
 ```bash
-git clone https://github.com/tu-usuario/ajedrez-java.git
+git clone https://github.com/LaSalleGracia-Programacio/24-25-pr-ctica-i-ian-gimeno.git
