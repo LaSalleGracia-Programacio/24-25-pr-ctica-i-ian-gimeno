@@ -436,7 +436,6 @@ public class Main {
 
     }
 
-
     private static void torre(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         int direccio = (torn == 0) ? -1 : 1;
@@ -615,7 +614,6 @@ public class Main {
         }
     }
 
-
     private static void cavall(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         int direccio = (torn == 0) ? -1 : 1;
@@ -693,7 +691,6 @@ public class Main {
         }
     }
 
-
     private static void alfil(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         String alfil = (torn == 0) ? "a" : "A";
@@ -716,55 +713,49 @@ public class Main {
             System.out.print("Quantes caselles vols moure't? ");
             int passos = scanner.nextInt();
 
-            for (int i = 1; i <= passos; i++) {
-                int filaActual = filaOrigen;
-                int columnaActual = columnaOrigen;
+            int filaActual = filaOrigen;
+            int columnaActual = columnaOrigen;
+
+            for (int i = 0; i < passos; i++) {
+                int filaTemp = filaActual;
+                int columnaTemp = columnaActual;
 
                 switch (opcio) {
-                    case 1 -> { filaActual -= i; columnaActual += i; }
-                    case 2 -> { filaActual -= i; columnaActual -= i; }
-                    case 3 -> { filaActual += i; columnaActual += i; }
-                    case 4 -> { filaActual += i; columnaActual -= i; }
+                    case 1 -> { filaTemp--; columnaTemp++; }
+                    case 2 -> { filaTemp--; columnaTemp--; }
+                    case 3 -> { filaTemp++; columnaTemp++; }
+                    case 4 -> { filaTemp++; columnaTemp--; }
                 }
 
-                if (filaActual < 0 || filaActual >= TaulerEscacs.length || columnaActual < 0 || columnaActual >= TaulerEscacs[0].length) {
-                    System.out.println("Moviment fora del tauler. Intenta-ho de nou.");
-                    return;
+                if (filaTemp < 0 || filaTemp >= TaulerEscacs.length || columnaTemp < 0 || columnaTemp >= TaulerEscacs[0].length) {
+                    break;
                 }
 
-                String casellaActual = TaulerEscacs[filaActual][columnaActual];
+                String casellaActual = TaulerEscacs[filaTemp][columnaTemp];
 
                 if (!casellaActual.equals("-")) {
                     if ((Character.isLowerCase(casellaActual.charAt(0)) && torn == 0) ||
                             (Character.isUpperCase(casellaActual.charAt(0)) && torn == 1)) {
-                        System.out.println("No pots menjar la teva propria peça.");
+                        System.out.println("La teva peça talla el pas a la casella (" + (filaTemp + 1) + ", " + (columnaTemp + 1) + "). L'alfil no es pot moure.");
                         mostrarTauler();
                         return;
                     } else {
-                        System.out.println("Has trobat una peça que pots menjar a la casella (" + (filaActual + 1) + ", " + (columnaActual + 1) + ").");
-                        TaulerEscacs[filaActual][columnaActual] = alfil;
-                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        TaulerEscacs[filaTemp][columnaTemp] = alfil;
+                        TaulerEscacs[filaActual][columnaActual] = "-";
                         mostrarTauler();
                         return;
                     }
                 }
+
+                filaActual = filaTemp;
+                columnaActual = columnaTemp;
             }
 
-            // Si no ha capturat una peça, mou el alfil fins a la casella final
-            int filaDesti = 0, columnaDesti = 0;
-
-            switch (opcio) {
-                case 1 -> { filaDesti = filaOrigen - passos; columnaDesti = columnaOrigen + passos; }
-                case 2 -> { filaDesti = filaOrigen - passos; columnaDesti = columnaOrigen - passos; }
-                case 3 -> { filaDesti = filaOrigen + passos; columnaDesti = columnaOrigen + passos; }
-                case 4 -> { filaDesti = filaOrigen + passos; columnaDesti = columnaOrigen - passos; }
-            }
-
-            String casellaDesti = TaulerEscacs[filaDesti][columnaDesti];
+            String casellaDesti = TaulerEscacs[filaActual][columnaActual];
             if (casellaDesti.equals("-") ||
                     (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1) ||
                     (Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0)) {
-                TaulerEscacs[filaDesti][columnaDesti] = alfil;
+                TaulerEscacs[filaActual][columnaActual] = alfil;
                 TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                 mostrarTauler();
             } else {
@@ -974,11 +965,11 @@ public class Main {
                 }
     }
 
-    private static void moureReinaDiagonal(int torn, int filaOrigen, int columnaOrigen){
+    private static void moureReinaDiagonal(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         String reina = (torn == 0) ? "d" : "D";
 
-        System.out.println("Escull la direccio per moure l'alfil:");
+        System.out.println("Escull la direccio per moure la reina:");
         System.out.println("1. Dalt Dreta");
         System.out.println("2. Dalt Esquerra");
         System.out.println("3. Baix Dreta");
@@ -996,55 +987,49 @@ public class Main {
             System.out.print("Quantes caselles vols moure't? ");
             int passos = scanner.nextInt();
 
-            for (int i = 1; i <= passos; i++) {
-                int filaActual = filaOrigen;
-                int columnaActual = columnaOrigen;
+            int filaActual = filaOrigen;
+            int columnaActual = columnaOrigen;
+
+            for (int i = 0; i < passos; i++) {
+                int filaTemp = filaActual;
+                int columnaTemp = columnaActual;
 
                 switch (opcio) {
-                    case 1 -> { filaActual -= i; columnaActual += i; }
-                    case 2 -> { filaActual -= i; columnaActual -= i; }
-                    case 3 -> { filaActual += i; columnaActual += i; }
-                    case 4 -> { filaActual += i; columnaActual -= i; }
+                    case 1 -> { filaTemp--; columnaTemp++; }
+                    case 2 -> { filaTemp--; columnaTemp--; }
+                    case 3 -> { filaTemp++; columnaTemp++; }
+                    case 4 -> { filaTemp++; columnaTemp--; }
                 }
 
-                if (filaActual < 0 || filaActual >= TaulerEscacs.length || columnaActual < 0 || columnaActual >= TaulerEscacs[0].length) {
-                    System.out.println("Moviment fora del tauler. Intenta-ho de nou.");
-                    return;
+                if (filaTemp < 0 || filaTemp >= TaulerEscacs.length || columnaTemp < 0 || columnaTemp >= TaulerEscacs[0].length) {
+                    break;
                 }
 
-                String casellaActual = TaulerEscacs[filaActual][columnaActual];
+                String casellaActual = TaulerEscacs[filaTemp][columnaTemp];
 
                 if (!casellaActual.equals("-")) {
                     if ((Character.isLowerCase(casellaActual.charAt(0)) && torn == 0) ||
                             (Character.isUpperCase(casellaActual.charAt(0)) && torn == 1)) {
-                        System.out.println("No pots menjar la teva propria peça.");
+                        System.out.println("La reina no es pot moure, obstacle a la casella (" + (filaTemp + 1) + ", " + (columnaTemp + 1) + "). Peça de color propi.");
                         mostrarTauler();
                         return;
                     } else {
-                        System.out.println("Has trobat una peça que pots menjar a la casella (" + (filaActual + 1) + ", " + (columnaActual + 1) + ").");
-                        TaulerEscacs[filaActual][columnaActual] = reina;
-                        TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                        TaulerEscacs[filaTemp][columnaTemp] = reina;
+                        TaulerEscacs[filaActual][columnaActual] = "-";
                         mostrarTauler();
                         return;
                     }
                 }
+
+                filaActual = filaTemp;
+                columnaActual = columnaTemp;
             }
 
-            // Si no ha capturat una peça, mou el alfil fins a la casella final
-            int filaDesti = 0, columnaDesti = 0;
-
-            switch (opcio) {
-                case 1 -> { filaDesti = filaOrigen - passos; columnaDesti = columnaOrigen + passos; }
-                case 2 -> { filaDesti = filaOrigen - passos; columnaDesti = columnaOrigen - passos; }
-                case 3 -> { filaDesti = filaOrigen + passos; columnaDesti = columnaOrigen + passos; }
-                case 4 -> { filaDesti = filaOrigen + passos; columnaDesti = columnaOrigen - passos; }
-            }
-
-            String casellaDesti = TaulerEscacs[filaDesti][columnaDesti];
+            String casellaDesti = TaulerEscacs[filaActual][columnaActual];
             if (casellaDesti.equals("-") ||
                     (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1) ||
                     (Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0)) {
-                TaulerEscacs[filaDesti][columnaDesti] = reina;
+                TaulerEscacs[filaActual][columnaActual] = reina;
                 TaulerEscacs[filaOrigen][columnaOrigen] = "-";
                 mostrarTauler();
             } else {
@@ -1056,8 +1041,7 @@ public class Main {
         }
     }
 
-
-    private static void rei(int torn, int filaOrigen, int columnaOrigen){
+    private static void rei(int torn, int filaOrigen, int columnaOrigen) {
         Scanner scanner = new Scanner(System.in);
         String rei = (torn == 0) ? "r" : "R";
 
@@ -1102,19 +1086,28 @@ public class Main {
 
             String casellaDesti = TaulerEscacs[filaDesti][columnaDesti];
 
-            if (casellaDesti.equals("-") || (Character.isLowerCase(casellaDesti.charAt(0)) && torn == 1) || (Character.isUpperCase(casellaDesti.charAt(0)) && torn == 0)) {
-                TaulerEscacs[filaDesti][columnaDesti] = rei;
-                TaulerEscacs[filaOrigen][columnaOrigen] = "-";
-                System.out.println("El rei s'ha mogut " + direccio);
-                mostrarTauler();
-            } else {
-                System.out.println("No pots menjar la teva pròpia peça.");
+            if (!casellaDesti.equals("-")) {
+                if ((Character.isLowerCase(casellaDesti.charAt(0)) && torn == 0) || (Character.isUpperCase(casellaDesti.charAt(0)) && torn == 1)) {
+                    System.out.println("El rei no es pot moure, obstacle a la casella (" + (filaDesti + 1) + ", " + (columnaDesti + 1) + "). Peça de color propi.");
+                    mostrarTauler();
+                    return;
+                } else {
+                    TaulerEscacs[filaDesti][columnaDesti] = rei;
+                    TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+                    System.out.println("El rei s'ha mogut " + direccio);
+                    mostrarTauler();
+                    return;
+                }
             }
+
+            TaulerEscacs[filaDesti][columnaDesti] = rei;
+            TaulerEscacs[filaOrigen][columnaOrigen] = "-";
+            System.out.println("El rei s'ha mogut " + direccio);
+            mostrarTauler();
         } catch (InputMismatchException e) {
             System.out.println("Error: Entrada no vàlida. Si us plau, introdueix un número vàlid.");
             scanner.next();
         }
     }
-
 
 }
